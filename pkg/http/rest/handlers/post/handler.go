@@ -13,19 +13,26 @@ import (
 
 func CreatePostHandler(postService post.PostService) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		enableCors(&w)
 		var post post.CreatePost
-
 		if err := json.NewDecoder(r.Body).Decode(&post); err != nil {
 			handlers.RenderErrorResponse(w, "Invalid request payload", r.URL.Path, util.WrapErrorf(err, util.ErrorCodeInvalid, "json decoder"))
 			return
 		}
 
-		postService.CreatePost(r.Context(), post)
+		postId, err := postService.CreatePost(r.Context(), post)
+		if err != nil {
+			handlers.RenderErrorResponse(w, "Invalid request payload", r.URL.Path, util.WrapErrorf(err, util.ErrorCodeInvalid, "could not create post"))
+
+		}
+		handlers.RenderResponse(w, http.StatusOK, postId)
+
 	}
 }
 
 func GetPostHandler(postService post.PostService) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		enableCors(&w)
 		uuid := mux.Vars(r)["uuid"]
 		if len(uuid) == 0 {
 			err := util.NewErrorf(util.ErrorCodeInternal, "Query parameters are invalid")

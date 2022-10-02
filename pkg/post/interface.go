@@ -4,8 +4,8 @@ import "context"
 
 //go:generate mockgen --source=post_service.go --destination=./mock/mock_post_service.go
 type PostService interface {
-	CreatePost(ctx context.Context, post CreatePost) error
-	GetPost(ctx context.Context, uuid string) (*GetPost, error)
+	CreatePost(ctx context.Context, post CreatePost) (string, error)
+	GetPost(ctx context.Context, uuid string) (Post, error)
 	GetAllPosts(ctx context.Context) ([]Post, error)
 }
 
