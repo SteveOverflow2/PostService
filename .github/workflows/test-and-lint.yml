@@ -28,7 +28,7 @@ jobs:
 
       - uses: docker/login-action@v2
         with:
-          registry: 80.56.132.146:5001
+          registry: http://80.56.132.146:5001
           username: hackerman
           password: Appelboom11
 
