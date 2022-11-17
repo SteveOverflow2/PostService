@@ -31,11 +31,3 @@ jobs:
           docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t postservice:test --label dockerfile-path=Dockerfile
           docker push postservice:test
 
-  deploy:
-    name: Deploy to Azure Kubernetes Service
-    runs-on: [self-hosted, develop]
-    needs: push
-    steps:
-      - uses: actions/checkout@v3
-      - uses: azure/k8s-set-context@v2
-
