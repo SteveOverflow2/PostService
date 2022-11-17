@@ -28,8 +28,8 @@ jobs:
       - name: Build and push image to registry
         id: build-image
         run: |
-          docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t postservice --label dockerfile-path=Dockerfile
-          docker push postservice
+          docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t postservice:test --label dockerfile-path=Dockerfile
+          docker push postservice:test
 
   deploy:
     name: Deploy to Azure Kubernetes Service
