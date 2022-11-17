@@ -28,5 +28,6 @@ jobs:
       - name: Build and push image to registry
         id: build-image
         run: |
-          docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t postservice:test --label dockerfile-path=Dockerfile
+          docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t 80.56.132.146:5001 --label dockerfile-path=Dockerfile
+          docker push 80.56.132.146:5001
 
