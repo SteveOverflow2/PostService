@@ -3,7 +3,7 @@ name: PostService
 on:
 push:
 branches:
-- main
+- master
 
 jobs:
 build-test:
@@ -44,10 +44,10 @@ id: login
 
 - name: Create namespace
   run: |
-    namespacePresent=`kubectl get namespace | grep main | wc -l`
+    namespacePresent=`kubectl get namespace | grep master | wc -l`
     if [ $namespacePresent -eq 0 ]
     then
-        echo `kubectl create namespace main`
+        echo `kubectl create namespace master`
     fi
 
 # - uses: azure/k8s-deploy@v4.6
