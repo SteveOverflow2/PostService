@@ -25,3 +25,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Build and push image to registry
+        id: build-image
+        run: |
+          docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t PostService --label dockerfile-path=Dockerfile
+          docker push PostService
+
+  deploy:
+    name: Deploy to Azure Kubernetes Service
+    runs-on: [self-hosted, develop]
+    needs: push
+    steps:
+      - uses: actions/checkout@v3
+      - uses: azure/k8s-set-context@v2
+
