@@ -23,6 +23,7 @@ jobs:
   push:
     name: Push new container to registry
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - uses: actions/checkout@v3
 
@@ -30,7 +31,7 @@ jobs:
         with:
           registry: https://steven.krijgtochdetyf.us:5001
           username: hackerman
-          password: password
+          password: Appelboom11
 
       - name: Build and push image to registry
         id: build-image
