@@ -26,6 +26,8 @@ WORKDIR /
 # Copy the Pre-built binary file from the previous stage
 COPY --from=builder --chown=nonroot:nonroot /app/main /main
 
+COPY --from=builder --chown=nonroot:nonroot /app/.env /.env
+
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
