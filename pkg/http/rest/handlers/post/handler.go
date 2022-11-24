@@ -2,6 +2,7 @@ package post
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"post-service/pkg/http/rest/handlers"
@@ -22,8 +23,9 @@ func CreatePostHandler(postService post.PostService) func(w http.ResponseWriter,
 
 		postId, err := postService.CreatePost(r.Context(), post)
 		if err != nil {
-			handlers.RenderErrorResponse(w, "Invalid request payload", r.URL.Path, util.WrapErrorf(err, util.ErrorCodeInvalid, "could not create post"))
-
+			fmt.Printf("err: %v\n", err)
+			handlers.RenderErrorResponse(w, "Invalid request payload", r.URL.Path, util.WrapErrorf(err, util.ErrorCodeInvalid, err.Error()))
+			return
 		}
 		handlers.RenderResponse(w, http.StatusOK, postId)
 
@@ -43,6 +45,7 @@ func GetPostHandler(postService post.PostService) func(w http.ResponseWriter, r 
 		post, err := postService.GetPost(r.Context(), uuid)
 		if err != nil {
 			handlers.RenderErrorResponse(w, "internal server error", r.URL.Path, util.WrapErrorf(err, util.ErrorCodeInternal, err.Error()))
+			return
 		}
 
 		handlers.RenderResponse(w, http.StatusOK, post)

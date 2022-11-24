@@ -2,6 +2,7 @@ package rest
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,6 +13,7 @@ import (
 	"post-service/pkg/config"
 	"post-service/pkg/http/rest/handlers"
 	"post-service/pkg/post"
+	post_repository "post-service/pkg/storage/mysql/post"
 
 	"github.com/gorilla/mux"
 )
@@ -23,11 +25,12 @@ type server struct {
 	Router *mux.Router
 
 	PostService post.PostService
+	SQL         *sql.DB
 }
 
 const serverLog string = "[Server]: "
 
-func NewServer(version string, environment string, cfg config.HTTPConfig) *server {
+func NewServer(version string, environment string, cfg config.HTTPConfig, sql *sql.DB) *server {
 	baseUrl := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
 
 	s := &server{
@@ -39,6 +42,7 @@ func NewServer(version string, environment string, cfg config.HTTPConfig) *serve
 			ReadTimeout:  cfg.ReadTimeOut,
 			IdleTimeout:  cfg.IdleTimeOut,
 		},
+		SQL:    sql,
 		Router: mux.NewRouter(),
 	}
 
@@ -54,8 +58,7 @@ func NewServer(version string, environment string, cfg config.HTTPConfig) *serve
 }
 
 func (s *server) Init() {
-	s.PostService = post.NewPostService(nil)
-
+	s.PostService = post.NewPostService(post_repository.NewPostRepository(context.Background(), s.SQL))
 	s.routes()
 }
 

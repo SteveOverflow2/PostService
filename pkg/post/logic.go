@@ -2,10 +2,7 @@ package post
 
 import (
 	"context"
-	"errors"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 var (
@@ -16,7 +13,7 @@ type postService struct {
 	postRepository PostRepository
 }
 
-func NewPostService(u PostRepository) PostService {
+func NewPostService(p PostRepository) PostService {
 	AllPosts = append(AllPosts, Post{
 		Id:          "123",
 		Title:       "My first post",
@@ -45,34 +42,19 @@ func NewPostService(u PostRepository) PostService {
 		Votes:       0,
 	})
 	return &postService{
-		postRepository: u,
+		postRepository: p,
 	}
 }
 
-func (u *postService) CreatePost(ctx context.Context, post CreatePost) (string, error) {
-	AllPosts = append(AllPosts, Post{
-		Id:          uuid.New().String(),
-		Title:       post.Title,
-		Description: post.Body,
-		Poster:      post.Subject,
-		CreatedAt:   time.Now().Unix(),
-		Views:       0,
-		Votes:       0,
-	})
-	return AllPosts[len(AllPosts)-1].Id, nil
+func (p *postService) CreatePost(ctx context.Context, post CreatePost) (string, error) {
+
+	return p.postRepository.CreatePost(ctx, post)
 }
 
-func (u *postService) GetPost(ctx context.Context, uuid string) (Post, error) {
-
-	for i := 0; i < len(AllPosts); i++ {
-		if uuid == AllPosts[i].Id {
-			return AllPosts[i], nil
-		}
-	}
-
-	return Post{}, errors.New("error")
+func (p *postService) GetPost(ctx context.Context, uuid string) (*Post, error) {
+	return p.postRepository.GetPost(ctx, uuid)
 }
 
-func (u *postService) GetAllPosts(ctx context.Context) ([]Post, error) {
-	return AllPosts, nil
+func (p *postService) GetAllPosts(ctx context.Context) ([]Post, error) {
+	return p.postRepository.GetAllPosts(ctx)
 }

@@ -6,6 +6,7 @@ import (
 
 	"post-service/pkg/config"
 	"post-service/pkg/http/rest"
+	"post-service/pkg/storage/mysql"
 	"post-service/pkg/util"
 )
 
@@ -24,10 +25,16 @@ func run() error {
 		return util.WrapErrorf(err, util.ErrorCodeInternal, "Environment configuration failed")
 	}
 
+	sql, err := mysql.NewMySQLConnection(cfg.MySQL)
+	if err != nil {
+		return err
+	}
+
 	server := rest.NewServer(
 		cfg.Version,
 		cfg.Environment,
 		cfg.HTTP,
+		sql,
 	)
 	server.Init()
 
