@@ -30,7 +30,7 @@ jobs:
       - uses: docker/login-action@v2
         with:
           username: stevenjansen
-          password: Appelboom11
+          password: dckr_pat_mNcohwOkR1oF0fYkDv7ZHzO86Rs
 
       - name: Build and push image to registry
         id: build-image
