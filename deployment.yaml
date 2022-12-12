@@ -26,7 +26,7 @@ spec:
         - configMapRef:
             name: post-service-config
         name: "post-service-sha256-1"
-        image: "gcr.io/steveoverflow-289df/post-service
+        image: "gcr.io/steveoverflow-289df/post-service@sha256:$GITHUB_SHA"
 
 ---
 apiVersion: "autoscaling/v2"
