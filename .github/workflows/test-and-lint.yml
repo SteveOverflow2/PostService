@@ -24,7 +24,7 @@ env:
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
-    runs-on: ubuntu-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+    runs-on: ubuntu-latest
     environment: production
 
     steps:
@@ -57,7 +57,6 @@ jobs:
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .
-
 
     # Push the Docker image to Google Container Registry
     - name: Publish
