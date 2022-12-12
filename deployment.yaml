@@ -21,7 +21,7 @@ spec:
       labels:
         app: "post-service"
     spec:
-      containers:
+      container:
       - name: "post-service-sha256-1"
         image: "gcr.io/steveoverflow-289df/post-service@sha256:71cd8f3b9e1d315e59cb367a0578b858cce677d716e6a0e319e64bf815c653f6"
       - envFrom:
