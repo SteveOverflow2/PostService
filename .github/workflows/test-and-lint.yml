@@ -23,7 +23,6 @@ env:
 
 jobs:
   setup:
-    name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
     environment: production
 
@@ -50,7 +49,7 @@ jobs:
         credentials: ${{ secrets.GKE_SA_KEY }}
 
     # Build the Docker imagez
-  buildy:
+  build:
     runs-on: ubuntu-latest
     needs: setup
     steps:
@@ -60,15 +59,20 @@ jobs:
           --build-arg GITHUB_SHA="latest" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .
-
+  publish:
     # Push the Docker image to Google Container Registry
-    - name: Publish
-      run: |-
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - run: |-
         docker push "gcr.io/steveoverflow-289df/post-service:latest"
 
+  deploy:
     # Set up kustomize
-    - name: Set up Kustomize
-      run: |-
+    runs-on: ubuntu-latest
+    needs: publish
+    steps:
+    - run: |-
         curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
         chmod u+x ./kustomize
 
