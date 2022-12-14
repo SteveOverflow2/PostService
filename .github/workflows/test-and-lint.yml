@@ -49,9 +49,11 @@ jobs:
         location: ${{ env.GKE_ZONE }}
         credentials: ${{ secrets.GKE_SA_KEY }}
 
-    # Build the Docker image
-    - name: Build
-      run: |-
+    # Build the Docker imagez
+  buildy:
+    runs-on: ubuntu-latest
+    steps:
+    - run: |-
         docker build \
           --tag "gcr.io/steveoverflow-289df/post-service:latest" \
           --build-arg GITHUB_SHA="latest" \
