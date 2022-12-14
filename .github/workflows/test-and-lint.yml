@@ -22,7 +22,7 @@ env:
   IMAGE: post-service
 
 jobs:
-  setup-build-publish-deploy:
+  setup:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
     environment: production
@@ -52,6 +52,7 @@ jobs:
     # Build the Docker imagez
   buildy:
     runs-on: ubuntu-latest
+    needs: setup
     steps:
     - run: |-
         docker build \
