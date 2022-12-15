@@ -29,6 +29,7 @@ func run() error {
 	if err != nil {
 		return err
 	}
+	fmt.Printf("%v\n", "Oh wow the service is online")
 	//go rabbitmq.StartServer()
 
 	server := rest.NewServer(
