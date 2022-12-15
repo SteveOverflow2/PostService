@@ -19,6 +19,7 @@ const httpLog string = "[HTTP - Config]: "
 
 // Gets all values from the environment.
 func (cfg *Config) loadHTTPConfig() HTTPConfig {
+
 	envFields := cfg.loadEnvFields(HTTPConfig{})
 
 	allowedOrigins := strings.Split(envFields["AllowedOrigins"], ",")
