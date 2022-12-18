@@ -11,7 +11,9 @@ export const options = {
 
 export default function () {
   const res = http.get('http://34.77.52.21/posts/api/post/');
-  check(res, { 'status was 200': (r) => r.status == 200 });
+  if(!check(res, { 'status must be 200': (r) => r.status == 200 })){
+    test.abort()
+  }
   sleep(1);
 }
 
