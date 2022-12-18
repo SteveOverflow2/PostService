@@ -91,7 +91,12 @@ jobs:
       with:
         filename: k6.js
         flags: --out json=results.json
-
+        
+    - name: Upload performance test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: k6-report
+        path: results.json
 # name: PostService
 
 # on:
