@@ -10,7 +10,7 @@ export const options = {
 };
 
 export default function () {
-  const res = http.get('http://34.77.52.21/posts/api/post/getAlaal');
+  const res = http.get('http://34.77.52.21/posts/api/post/');
   check(res, { 'status was 200': (r) => r.status == 200 });
   sleep(1);
 }
