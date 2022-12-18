@@ -15,8 +15,11 @@ export default function () {
   sleep(1);
 }
 
+
 export function handleSummary(data) {
+  console.log('Finished executing performance tests');
+
   return {
-    'results.json': textSummary(data, { indent: ' ', enableColors: true }), // and a JSON with all the details...
+    'stdout': textSummary(data, { indent: ' ', enableColors: true }), // Show the text summary to stdout...
   };
 }
