@@ -90,7 +90,6 @@ jobs:
       uses: grafana/k6-action@v0.2.0
       with:
         filename: k6.js
-        flags: --out json=results.json
 
     - name: Upload performance test results
       uses: actions/upload-artifact@v3
