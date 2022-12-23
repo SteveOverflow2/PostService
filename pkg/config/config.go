@@ -15,8 +15,9 @@ type Config struct {
 	Version     string
 
 	// Add package configs under here
-	HTTP  HTTPConfig
-	MySQL MySQLConfig
+	HTTP     HTTPConfig
+	MySQL    MySQLConfig
+	RabbitMQ RabbitMQ
 }
 
 func NewConfig() *Config {
@@ -42,6 +43,7 @@ func (cfg *Config) LoadConfig() error {
 	// Loading extra package configurations
 	cfg.HTTP = cfg.loadHTTPConfig()
 	cfg.MySQL = cfg.loadMySQLConfig()
+	cfg.RabbitMQ = cfg.loadRabbitMQConfig()
 
 	return nil
 }
