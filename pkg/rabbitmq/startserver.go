@@ -44,6 +44,7 @@ func StartServer(cfg config.RabbitMQ) {
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
+			fmt.Printf("d.UserId: %v\n", d.UserId)
 		}
 	}()
 
