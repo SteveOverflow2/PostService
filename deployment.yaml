@@ -28,9 +28,9 @@ spec:
         image: "gcr.io/steveoverflow-289df/post-service:latest"
         resources:
           limits:
-            cpu: 500m
+            cpu: "0.05"
           requests:
-            cpu: 200m
+            cpu: "0.02"
 
 ---
 apiVersion: "autoscaling/v2"
