@@ -26,6 +26,12 @@ spec:
             name: post-config
         name: "post-service-sha256-1"
         image: "gcr.io/steveoverflow-289df/post-service:latest"
+      resources:
+        limits:
+          cpu: 500m
+        requests:
+          cpu: 200m
+          
 ---
 apiVersion: "autoscaling/v2"
 kind: "HorizontalPodAutoscaler"
