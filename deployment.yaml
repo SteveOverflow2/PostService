@@ -29,8 +29,6 @@ spec:
         resources:
           limits:
             cpu: "0.05"
-          requests:
-            cpu: "0.02"
 
 ---
 apiVersion: "autoscaling/v2"
