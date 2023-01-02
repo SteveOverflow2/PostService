@@ -12,7 +12,6 @@ metadata:
   labels:
     app: "post-service"
 spec:
-  replicas: 5
   selector:
     matchLabels:
       app: "post-service"
