@@ -43,7 +43,7 @@ spec:
     kind: "Deployment"
     name: "post-service"
     apiVersion: "apps/v1"
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 5
   metrics:
   - type: "Resource"
