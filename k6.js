@@ -18,6 +18,7 @@ export default function () {
     console.log("Got back statuscode: " + res.status)
   }
   sleep(1);
+  
 }
 
 
