@@ -15,5 +15,6 @@ func (s *server) routes() {
 
 	//GET
 	postHandler.HandleFunc("/getAll", post.GetAllPostsHandler(s.PostService)).Methods(http.MethodGet)
+
 	postHandler.HandleFunc("/{uuid}", post.GetPostHandler(s.PostService)).Methods(http.MethodGet)
 }
