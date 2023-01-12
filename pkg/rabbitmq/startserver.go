@@ -1,14 +1,19 @@
 package rabbitmq
 
 import (
+	"bytes"
+	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"post-service/pkg/config"
+	"post-service/pkg/post"
 
+	"github.com/google/uuid"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func StartServer(cfg config.RabbitMQ) {
+func StartServer(cfg config.RabbitMQ, logic post.PostService) {
 	fmt.Println("Starting rabbitmq")
 	fmt.Println(cfg.Host + ":" + cfg.Port)
 	conn, err := amqp.Dial("amqp://guest:guest@" + cfg.Host + ":" + cfg.Port)
@@ -45,6 +50,13 @@ func StartServer(cfg config.RabbitMQ) {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
 			fmt.Printf("d.UserId: %v\n", d.UserId)
+			var post post.CreatePost
+			if err := json.NewDecoder(bytes.NewReader(d.Body)).Decode(&post); err != nil {
+				fmt.Println("Unmarshal went wrong")
+				return
+			}
+			post.Uuid = uuid.NewString()
+			logic.CreatePost(context.Background(), post)
 		}
 	}()
 

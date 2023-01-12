@@ -31,7 +31,6 @@ func run() error {
 		return err
 	}
 	fmt.Printf("%v\n", "Oh wow the service is online")
-	go rabbitmq.StartServer(cfg.RabbitMQ)
 
 	server := rest.NewServer(
 		cfg.Version,
@@ -39,7 +38,9 @@ func run() error {
 		cfg.HTTP,
 		sql,
 	)
+
 	server.Init()
+	go rabbitmq.StartServer(cfg.RabbitMQ, server.PostService)
 
 	// Runs the new server instance.
 	server.Run(cfg.Name)
