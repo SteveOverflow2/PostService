@@ -75,7 +75,7 @@ jobs:
       run: |-
         ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/steveoverflow-289df/post-service:latest
         ./kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/post-service --namespace steve-overflow
+        kubectl rollout restart deployment/post-service --namespace steve-overflow
         kubectl get services -o wide --namespace steve-overflow
 
   k6_load_test:
