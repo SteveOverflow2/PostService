@@ -40,6 +40,9 @@ jobs:
     - name: Test with the Go CLI
       run: go test -v ./...
 
+    - name: golangci-lint
+      uses: golangci/golangci-lint-action@v3
+
   setup-build-publish-deploy:
     needs: build
     name: Setup, Build, Publish, and Deploy
