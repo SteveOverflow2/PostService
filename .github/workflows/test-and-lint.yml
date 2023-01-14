@@ -36,6 +36,10 @@ jobs:
 
     - name: Build
       run: go build -v ./...
+
+    - name: Test with the Go CLI
+      run: go test -v ./...
+
   setup-build-publish-deploy:
     needs: build
     name: Setup, Build, Publish, and Deploy
