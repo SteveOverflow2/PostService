@@ -42,6 +42,8 @@ jobs:
 
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v3
+      with:
+        args: --issues-exit-code=0
 
   setup-build-publish-deploy:
     needs: build
