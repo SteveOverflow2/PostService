@@ -4,8 +4,6 @@ import (
 	"testing"
 )
 
-// TestHelloName calls greetings.Hello with a name, checking
-// for a valid return value.
-func FirstTest(t *testing.T) {
-
+func TestFirst(t *testing.T) {
+	t.Fatal()
 }
