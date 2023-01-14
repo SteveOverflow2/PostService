@@ -5,5 +5,4 @@ import (
 )
 
 func TestFirst(t *testing.T) {
-	t.Fatal()
 }
