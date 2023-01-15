@@ -36,8 +36,8 @@ jobs:
         with:
           args: --issues-exit-code=0
   
-  test:
-    name: Go Build
+  build:
+    name: build & test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -54,7 +54,7 @@ jobs:
       run: go test -v ./...
 
   setup-build-publish-deploy:
-    needs: test
+    needs: build
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
     environment: production
