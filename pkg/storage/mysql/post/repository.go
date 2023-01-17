@@ -3,6 +3,7 @@ package post
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"post-service/pkg/post"
 	"time"
 
@@ -20,14 +21,14 @@ func NewPostRepository(ctx context.Context, db *sql.DB) post.PostRepository {
 }
 
 func (p *postRepository) CreatePost(ctx context.Context, post post.CreatePost) (string, error) {
-	createPostQuery := "INSERT INTO post (_id, title, description, createdAt, views, answers, votes, poster) VALUES (?,?,?,?,?,?,?,?);"
+	createPostQuery := "INSERT INTO post (_id, title, description, createdAt, updatedAt, views, answers, votes, poster) VALUES (?,?,?,?,?,?,?,?,?);"
 	stmt, err := p.db.Prepare(createPostQuery)
 	if err != nil {
 		return "", err
 	}
 	defer stmt.Close()
 	newId := uuid.New().String()
-	_, err = stmt.Exec(newId, post.Title, post.Body, time.Now().Unix(), 0, 0, 0, post.Subject)
+	_, err = stmt.Exec(newId, post.Title, post.Body, time.Now().Unix(), time.Now().Unix(), 0, 0, 0, post.Subject)
 	if err != nil {
 		return "", err
 	}
@@ -45,7 +46,7 @@ func (p *postRepository) GetAllPosts(ctx context.Context) ([]post.Post, error) {
 	defer result.Close()
 	for result.Next() {
 		var post post.Post
-		err := result.Scan(&post.Id, &post.Title, &post.Description, &post.CreatedAt, &post.Views, &post.Answers, &post.Votes, &post.Poster)
+		err := result.Scan(&post.Id, &post.Title, &post.Description, &post.CreatedAt, &post.UpdatedAt, &post.Views, &post.Answers, &post.Votes, &post.Poster)
 		if err != nil {
 			return nil, err
 		}
@@ -64,10 +65,46 @@ func (p *postRepository) GetPost(ctx context.Context, uuid string) (*post.Post, 
 	var post post.Post
 
 	for result.Next() {
-		err := result.Scan(&post.Id, &post.Title, &post.Description, &post.CreatedAt, &post.Views, &post.Answers, &post.Votes, &post.Poster)
+		err := result.Scan(&post.Id, &post.Title, &post.Description, &post.CreatedAt, &post.UpdatedAt, &post.Views, &post.Answers, &post.Votes, &post.Poster)
 		if err != nil {
 			return nil, err
 		}
 	}
 	return &post, nil
+}
+
+func (p *postRepository) UpdateTime(ctx context.Context, uuid string) {
+	updateTime := "UPDATE post SET updatedAt = ? WHERE _id = ?"
+	fmt.Printf("uuid: %v\n", uuid)
+	fmt.Printf("\" starting update\": %v\n", " starting update")
+	stmt, err := p.db.Prepare(updateTime)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(time.Now().Unix(), uuid)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return
+	}
+	fmt.Printf("\" succes\": %v\n", " succes")
+	return
+}
+
+func (p *postRepository) DeletePost(ctx context.Context, uuid string) {
+	updateTime := "DELETE FROM post WHERE _id = ?"
+	stmt, err := p.db.Prepare(updateTime)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(uuid)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return
+	}
+	fmt.Printf("\" succes\": %v\n", " succes")
+	return
 }

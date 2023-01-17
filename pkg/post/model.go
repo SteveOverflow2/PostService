@@ -19,6 +19,7 @@ type Post struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	CreatedAt   int64  `json:"created_at"`
+	UpdatedAt   int64  `json:"updated_at"`
 	Views       int    `json:"views"`
 	Answers     int    `json:"answers"`
 	Votes       int    `json:"votes"`
